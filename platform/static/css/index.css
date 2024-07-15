@@ -336,13 +336,12 @@
   text-decoration: none;
 }
 .home-container2 {
-  flex: 0 0 auto;
-  width: auto;
-  border: 2px dashed rgba(120, 120, 120, 0.4);
-  height: auto;
+  position: absolute;
+  top: auto;
+  right: var(--dl-space-space-fiveunits);
   display: flex;
-  align-items: space-between;
-  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
 }
 .home-menu {
   gap: var(--dl-space-space-twounits);
