@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Register</title>
+   <link rel="stylesheet" href="../static/css/register.css">
+</head>
+
+<body>
+   <section>
+      <nav class="navbar">
+         <div class="logo">
+            <a href="#">
+               <img src="../static/images/logo.svg" alt="Logo">
+            </a>
+         </div>
+         <div class="nav-links">
+            <ul>
+               <li><a href="#">Login</a></li>
+               <li><a href="#">Register</a></li>
+            </ul>
+         </div>
+      </nav>
+      <div class="login-box">
+         <form action="/register" method="POST">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+               {% for message in messages %}
+               {{ message }}
+               {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <h2>Register</h2>
+            <div class="input-box">
+               <span class="icon"><ion-icon name="name"></ion-icon></span>
+               <input type="name" name="name" required>
+               <label>Name</label>
+            </div>
+            <div class="input-box">
+               <span class="icon"><ion-icon name="mail"></ion-icon></span>
+               <input type="email" name="email" required>
+               <label>Email</label>
+            </div>
+            <div class="input-box">
+               <span class="icon"><ion-icon name="calendar"></ion-icon></span>
+               <input type="date" name="dob" required>
+               <label></label>
+            </div>
+            <div class="input-box">
+               <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+               <input type="password" name="password" required>
+               <label>Password</label>
+            </div>
+            <div class="input-box">
+               <span class="icon"><ion-icon name="briefcase"></ion-icon></span>
+               <select name="role" required>
+                  <option value="" disabled selected>Choose Role</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Sponsor">Sponsor</option>
+                  <option value="Influencer">Influencer</option>
+               </select>
+
+            </div>
+            <div class="input-box">
+               <span class="icon"><ion-icon name="pricetag"></ion-icon></span>
+               <select name="niche" required>
+                  <option value="" disabled selected>Choose Niche</option>
+                  <option value="Tech">Tech</option>
+                  <option value="Fashion and Beauty">Fashion and Beauty</option>
+                  <option value="Fitness">Fitness</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Food">Food</option>
+                  <option value="Lifestyle">Lifestyle</option>
+                  <option value="Gaming">Gaming</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Entertainment">Entertainment</option>
+               </select>
+
+            </div>
+            <div class="remember-forgot">
+               <label><input type="checkbox">Remember Me</label>
+               <a href="{{ url_for('forgot') }}">Forgot Password?</a>
+            </div>
+            <button type="submit"><a href="{{ url_for('index') }}">Register</a></button>
+            <div class="register-link">
+               <p>Do you have an account? <a href="{{ url_for('login') }}">Login</a></p>
+            </div>
+         </form>
+      </div>
+   </section>
+
+   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
