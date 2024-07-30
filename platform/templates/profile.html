@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .heading {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .heading h1 {
+            font-size: 3.5rem;
+        }
+
+        .profile-pic {
+            margin: 20px 0;
+        }
+
+        .profile-pic img {
+            border-radius: 50%;
+        }
+
+        .form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-outline-danger {
+            width: auto;
+            margin-left: 10px;
+        }
+
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+            /* Ensure navbar is above the login box */
+            background-color: rgba(0, 0, 0, 0);
+            /* Adjust opacity as needed */
+        }
+
+        .logo img {
+            height: 40px;
+            /* Adjust logo size as needed */
+        }
+
+        .nav-links ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links ul li {
+            margin-right: 20px;
+        }
+
+        .nav-links ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links ul li a:hover {
+            color: #f1f1f1;
+            /* Adjust hover color as needed */
+        }
+
+        .alert {
+            width: 310px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(255, 0, 0, 0.7);
+            /* Red background with some transparency */
+            color: #fff;
+            text-align: center;
+            font-size: 1em;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-danger {
+            border: 1px solid rgba(255, 0, 0, 0.8);
+            /* Border to match the background */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Logo</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            {% if 'user_id' in session %}
+            <ul class="navbar-nav ml-auto">
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sent Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pending Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Find Campaigns</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Active Campaigns</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Completed Requests</a>
+                </li>
+            </ul>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+               {% for message in messages %}
+               {{ message }}
+               {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="d-flex align-items-center">
+                <div class="profile-pic">
+                    <img src="profile-pic-url" alt="Profile Picture">
+                </div>
+                <span>{{ user.email }}</span>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"> </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Update Profile</a>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="heading">
+            <br><br><br><br>
+            <h1 class="display-1">
+                Hello,
+                <span class="text-muted">@{{user.email}}</span>
+            </h1>
+            <div class="profile-pic">
+                <img src="https://api.dicebear.com/6.x/lorelei/svg?seed={{user.email}}" width="100"
+                    alt="Profile Picture">
+            </div>
+        </div>
+
+        <!-- Form to change password and username -->
+        <form action="" method="post" class="form">
+            <div class="form-group">
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" name="email" id="email" value="{{user.email}}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="cpassword" class="form-label">Current Password:</label>
+                <input type="password" name="cpassword" id="cpassword" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">New Password:</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" name="name" id="name" value="{{user.name}}" class="form-control">
+            </div>
+            <div class="buttons d-flex justify-content-center align-items-center">
+                <div class="form-group m-3">
+                    <input type="submit" value="Update" class="btn btn-primary">
+                </div>
+                <a href="{{url_for('logout')}}" class="btn btn-outline-danger">Logout</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

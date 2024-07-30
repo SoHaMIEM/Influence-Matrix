@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Register</title>
+   <link rel="stylesheet" href="../static/css/complete_profile.css">
+</head>
+
+<body>
+   <section>
+      <nav class="navbar">
+         <div class="logo">
+            <a href="#">
+               <img src="../static/images/logo.svg" alt="Logo">
+            </a>
+         </div>
+         <div class="nav-links">
+            <ul>
+               <li><a href="#">Login</a></li>
+               <li><a href="#">Register</a></li>
+            </ul>
+         </div>
+      </nav>
+      <div class="login-box">
+         <form action="" method="POST">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+               {% for message in messages %}
+               {{ message }}
+               {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <h2>Influencer Profile</h2><br>
+            <h4 >Profile Picture</h4>
+            <div class="input-box">
+                
+                <span class="icon"><ion-icon name="image"></ion-icon></span>
+                <input type="file" name="profile_picture" accept="image/*" required>
+            </div>
+            
+
+           <div class="input-box">
+            <span class="icon"><ion-icon name="company"></ion-icon></span>
+            <input type="company" name="company" required>
+            <label>Company</label>
+            </div>
+            <div class="input-box">
+                <span class="icon"><ion-icon name="bank_balance"></ion-icon></span>
+                <input type="bank_balance" name="bank_balance" required>
+                <label>Bank Balance</label>
+            
+         </div>
+            
+            <button type="submit"><a href="{{ url_for('sponsor') }}">Add Profile</a></button>
+            
+         </form>
+      </div>
+   </section>
+   
+   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

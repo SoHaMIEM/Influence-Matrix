@@ -1,7 +1,7 @@
 from app import app
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
+from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -37,6 +37,22 @@ class Campaign(db.Model):
     def __repr__(self):
         return f'<Campaign {self.name}>'
 
+class Sponsor(db.Model):
+    __tablename__ = 'sponsor'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    profile_picture = db.Column(db.String(250), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    company = db.Column(db.String(120), nullable=True)
+    bank_balance = db.Column(db.Float, nullable=False)
+    flagged = db.Column(db.Boolean, default=False)
+
+    user = db.relationship('User', backref=db.backref('sponsor', lazy=True))
+
+    def __repr__(self):
+        return f'<Sponsor {self.name}>'
+    
 class Influencer(db.Model):
     __tablename__ = 'influencer'
     id = db.Column(db.Integer, primary_key=True)
@@ -124,3 +140,11 @@ class Rating(db.Model):
 
 with app.app_context():
     db.create_all()
+
+    admin = User.query.filter_by(role='Admin').first()
+    if not admin:
+        password_hash = generate_password_hash('admin')
+        admin_dob = datetime.strptime('2003-11-20', '%Y-%m-%d').date()
+        admin=User(name='Admin',email='admin@gmail.com',password=password_hash,role='Admin',dob=admin_dob)
+        db.session.add(admin)
+        db.session.commit()

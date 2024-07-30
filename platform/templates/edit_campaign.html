@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Campaign</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+        }
+
+        .display-4 {
+            font-weight: 300;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        .btn {
+            margin: 5px;
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+        hr {
+            margin: 40px 0;
+        }
+
+        .display-6 {
+            margin-bottom: 20px;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: auto;
+        }
+
+        .dropdown-menu-right {
+            right: 0;
+            left: auto;
+        }
+
+        .campaigns .campaign {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .campaigns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .campaign {
+            flex: 1 1 calc(33.333% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .campaign h5 {
+            font-size: 1.25rem;
+        }
+
+        .active-campaigns .campaign {
+            margin-bottom: 10px;
+        }
+
+        #contain-form {
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Logo</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            {% if 'user_id' in session %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Active Campaign</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Add Campaign</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Find Influencer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">New Requests</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center">
+                <div class="profile-pic">
+                    <img src="profile-pic-url" alt="Profile Picture">
+                </div>
+                <span>{{ sponsor.email }}</span>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown"></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Update Profile</a>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="container mt-5">
+        <br><br>
+        <h1 class="text-center">Edit Campaign</h1>
+        <br><br>
+        <form id="contain-form" method="POST" action="">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ campaign.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" required>{{ campaign.description }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="budget">Budget</label>
+                <input type="number" class="form-control" id="budget" name="budget" step="0.01" value="{{ campaign.budget }}" required>
+            </div>
+            <div class="form-group">
+                <label for="visibility">Visibility</label>
+                <input type="text" class="form-control" id="visibility" name="visibility" value="{{ campaign.visibility }}" required>
+            </div>
+            <div class="form-group">
+                <label for="goals">Goals</label>
+                <textarea class="form-control" id="goals" name="goals" rows="3">{{ campaign.goals }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="niche">Niche</label>
+                <input type="text" class="form-control" id="niche" name="niche" value="{{ campaign.niche }}">
+            </div>
+            
+            <br>
+            <button type="submit" class="btn btn-primary">Update Campaign</button>
+            <a href="{{ url_for('sponsor') }}" class="btn btn-secondary">Back to Campaigns</a>
+        </form>
+        <br><br>
+    </div>
+    <br><br>
+    <br><br><br>
+</body>
+
+</html>
