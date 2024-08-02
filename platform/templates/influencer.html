@@ -97,27 +97,39 @@
             {% endif %}
             {% endwith %}
     <div class="container">
-        <h2>Find Campaigns</h2>
-        <form class="form-inline my-4">
-            <input class="form-control mr-sm-2" type="search" placeholder="Campaign Name" aria-label="Search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Niche" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <div class="campaigns">
-            <!-- Repeat this block for each campaign -->
-            <div class="campaign">
-                <h5>Campaign Name</h5>
-                <p>Campaign Description</p>
-                <p><strong>Start Date:</strong> YYYY-MM-DD</p>
-                <p><strong>End Date:</strong> YYYY-MM-DD</p>
-                <button class="btn btn-primary">View Details</button>
+        <div class="container">
+            <h2>Find Campaigns</h2>
+            <form class="form-inline my-4">
+                <input class="form-control mr-sm-2" type="search" placeholder="Campaign Name" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Niche" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <div class="campaigns">
+                {% for campaign in campaigns %}
+                <div class="campaign">
+                    <h5>{{ campaign.name }}</h5>
+                    <p>{{ campaign.description }}</p>
+                    <p><strong>Start Date:</strong> {{ campaign.start_date }}</p>
+                    <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCampaignModal"
+                        data-name="{{ campaign.name }}" data-description="{{ campaign.description }}"
+                        data-startdate="{{ campaign.start_date }}" data-enddate="{{ campaign.end_date }}"
+                        data-budget="{{ campaign.budget }}" data-goals="{{ campaign.goals }}"
+                        data-niche="{{ campaign.niche }}" data-status="{{ campaign.status }}">
+                        <i class="fas fa-search"></i> View Details
+                    </a>
+                    
+                    <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCampaignModal">
+                        <i class="fas fa-trash"></i> Send Request
+                    </a>
+                </div>
+                {% endfor %}
             </div>
-            <!-- End of campaign block -->
         </div>
-
+<!--
         <h2>Active Campaigns</h2>
         <div class="active-campaigns">
-            <!-- Repeat this block for each active campaign -->
+            
             <div class="campaign">
                 <h5>Campaign Name</h5>
                 <p>Campaign Description</p>
@@ -125,10 +137,10 @@
                 <p><strong>End Date:</strong> YYYY-MM-DD</p>
                 <button class="btn btn-secondary">View Details</button>
             </div>
-            <!-- End of active campaign block -->
+            
         </div>
     </div>
-
+-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

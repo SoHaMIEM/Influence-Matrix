@@ -50,9 +50,7 @@ def index():
 def forgot():
     return render_template('forgot.html')
 
-@app.route('/influencer')
-def influencer():
-    return render_template('influencer.html')
+
 
 @app.route('/login', methods=['POST'])
 def login_post():
@@ -91,7 +89,7 @@ def login_post():
     elif role == 'Sponsor':
         sponsor = Sponsor.query.filter_by(user_id=user.id).first()
         if sponsor and sponsor.profile_picture and sponsor.company and sponsor.bank_balance:
-            return render_template('sponsor.html')
+            return render_template('sponsor.html',sponsor=sponsor)
         else:
             return redirect(url_for('complete_sponsor_profile'))
     
@@ -303,6 +301,16 @@ def edit_campaign():
     return render_template('edit_campaign.html',sponsor=sponsor, campaign=campaign)
 
 
+@app.route('/find_influencer')
+@auth_required
+def find_influencer():
+    influencer = Influencer.query.filter_by(user_id=session['user_id']).first()
+    sponsor = Sponsor.query.filter_by(user_id=session['user_id']).first()
+    return render_template('influencer.html',influencer=influencer,sponsor=sponsor)
+
+
+
+
 #Sponsor CRUD------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 @app.route('/sponsor/<int:id>', methods=['GET'])
@@ -390,3 +398,48 @@ def delete_campaign(id):
         db.session.rollback()  
         flash('An error occurred while deleting the campaign. Please try again.', 'danger')
     return redirect(url_for('sponsor'))
+
+
+
+@app.route('/ajaxfile', methods=['POST'])
+def ajaxfile():
+    user_id = request.form.get('userid')
+    # Query the database for user details
+    user = db.session.query(User).filter_by(id=user_id).first()  # Adjust this line based on your User model
+
+    if user:
+        # Render the user information as HTML
+        html = render_template('response.html', employeelist=[user])
+        return html
+    return "User not found", 404
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Influencer-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+@app.route('/influencer')
+def influencer():
+    influencer = Influencer.query.filter_by(user_id=session['user_id']).first()
+    campaign = Campaign.query.all()
+    return render_template('influencer.html',campaign,influencer)
+    
+
+
+
+

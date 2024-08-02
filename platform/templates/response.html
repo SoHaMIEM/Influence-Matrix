@@ -1,0 +1,14 @@
+{% for row in employeelist %}
+<table border='0' width='100%'>
+    <tr>
+        <td width="300"><img src="/static/images/{{row.photo}}" alt="User Photo"></td>
+        <td style="padding:20px;">
+        <p>Name: {{row.name}}</p>
+        <p>Position: {{row.position}}</p>
+        <p>Office: {{row.office}}</p>
+        <p>Age: {{row.age}}</p>
+        <p>Salary: {{row.salary}}</p>
+        </td>
+    </tr>
+</table>
+{% endfor %}
